@@ -11,7 +11,7 @@ function RegisterTeacher() {
   async function handleSubmit(e) {
     e.preventDefault()
     try {
-      await Axios.post("https://schedule-professor.liara.run/professor/register", { username, password })
+      await Axios.post("/professor/register", { username, password })
       console.log("User was successfully created.")
     } catch (e) {
       console.log("There was an error.")

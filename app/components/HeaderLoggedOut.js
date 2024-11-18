@@ -10,9 +10,9 @@ function HeaderLoggedOut(props) {
 
   async function handleLoginStudent() {
     try {
-      const response = await Axios.post("https://schedule-professor.liara.run/s/login", { username, password })
+      const response = await Axios.post("/s/login", { username, password })
       if (response.data) {
-        // console.log(response.data)
+        console.log(response.data)
         appDispatch({ type: "login", data: response.data })
       } else {
         console.log("Incorrect username / password.")
@@ -24,7 +24,7 @@ function HeaderLoggedOut(props) {
 
   async function handleLoginProfessor() {
     try {
-      const response = await Axios.post("https://schedule-professor.liara.run/professor/login", { username, password })
+      const response = await Axios.post("/professor/login", { username, password })
       if (response.data) {
         // console.log(response.data)
         appDispatch({ type: "login" })

@@ -16,7 +16,7 @@ function HomeGuest() {
   async function handleSubmit(e) {
     e.preventDefault()
     try {
-      await Axios.post("https://schedule-professor.liara.run/s/login", { username, password })
+      await Axios.post("/s/register", { username, password })
       console.log("User was successfully created.")
     } catch (e) {
       console.log("There was an error.")
