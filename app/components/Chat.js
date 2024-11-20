@@ -1,15 +1,16 @@
 import React, { useEffect } from "react"
+import Page from "./Page"
 
-function ProChat() {
+function Chat() {
   return (
     <>
-      <div class="container container--narrow py-md-5">
+      <Page title="صفحه چت">
         <div id="chat-wrapper" class="shadow border-top border-left border-right chat-border">
           <div class="chat-title-bar bg-primary chat-border">
             صفحه چت
             <span class="chat-title-bar bg-primary">
               {/* <i class="fas fa-times-circle"></i> */}
-              ارسال به : سمیه اقبالیون
+              ارسال به : امیرجلالی بیدگلی
             </span>
           </div>
           <div id="chat" class="chat-log">
@@ -17,19 +18,19 @@ function ProChat() {
               <div class="chat-message">
                 <div class="chat-message-inner">سلام</div>
               </div>
-              <img class="chat-avatar avatar-tiny" src="profile.jpg"></img>
+              <img class="chat-avatar avatar-tiny" src="../images/profile.jpg"></img>
             </div>
 
             <div class="chat-other">
               <a href="#">
-                <img class="avatar-tiny" src="profile.jpg"></img>
+                <img class="avatar-tiny" src="../images/profile.jpg"></img>
               </a>
               <div class="chat-message">
                 <div class="chat-message-inner">
                   <a href="#">
-                    <strong>سمیه اقبالیون : </strong>
+                    <strong> امیرجلالی بیدگلی : </strong>
                   </a>
-                  سلام استاد وقت بخیر
+                  سلام
                 </div>
               </div>
             </div>
@@ -38,9 +39,9 @@ function ProChat() {
             <input type="text" class="chat-field" id="chatField" placeholder="پیام خود را وارد کنید..." autocomplete="off" />
           </form>
         </div>
-      </div>
+      </Page>
     </>
   )
 }
 
-export default ProChat
+export default Chat

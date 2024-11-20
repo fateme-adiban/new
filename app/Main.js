@@ -18,7 +18,6 @@ import About from "./components/About"
 import Terms from "./components/Terms"
 import FlashMessages from "./components/FlashMessages"
 import Profile from "./components/Profile"
-import HeaderLoggedIn from "./components/HeaderLoggedIn"
 
 function Main() {
   const initialState = {
@@ -28,7 +27,8 @@ function Main() {
       token: localStorage.getItem("token"),
       username: localStorage.getItem("username"),
       avatar: localStorage.getItem("avatar")
-    }
+    },
+    isProfessor: false
   }
 
   function ourReducer(draft, action) {
@@ -43,6 +43,8 @@ function Main() {
       case "flashMessage":
         draft.flashMessages.push(action.value)
         return
+      case "isProfessor":
+        draft.isProfessor = true
     }
   }
 

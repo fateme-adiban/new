@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import Page from "./Page"
+import DispatchContext from "../DispatchContext"
 
 function RegisterTeacher() {
   const groups = ["آمار", "اخلاق", "اقتصاد اسلامي", "تربيت  بدني", "حسابداري", "حقوق  جزا و جرم  شناسي", "حقوق  خصوصي", "حقوق بين الملل", "حقوق عمومي", "حقوق مالكيت فكري", "رياضي", "زبان  و ادبيات  انگليسي", "زبان  و ادبيات  عربي", "زبان  و ادبيات  فارسي", "زيست شناسي", "شيعه شناسي", "شيمي", "علم اطلاعات و دانش شناسي", "علوم  تربيتي", "علوم قرآن و حديث", "علوم كامپيوتر", "فقه  و مباني  حقوق  اسلامي", "فلسفه  و كلام  اسلامي", "فيزيك", "مديريت بازرگاني", "مديريت صنعتي", "معارف", "معماري", "مهندسي  صنايع", "مهندسي برق", "مهندسي شيمي", "مهندسي عمران", "مهندسي كامپيوتر", "مهندسي مكانيك"]
@@ -7,12 +8,15 @@ function RegisterTeacher() {
 
   const [username, setUsername] = useState()
   const [password, setPassword] = useState()
+  const appDispatch = useContext(DispatchContext)
 
   async function handleSubmit(e) {
     e.preventDefault()
     try {
       await Axios.post("/professor/register", { username, password })
       console.log("User was successfully created.")
+      appDispatch({ type: "login" })
+      appDispatch({ type: "isProfessor" })
     } catch (e) {
       console.log("There was an error.")
     }
@@ -21,26 +25,26 @@ function RegisterTeacher() {
   return (
     <>
       <Page title="خوش آمدید">
-        <form onSubmit={handleSubmit} class="col-lg-9 offset-lg-1 direction">
+        <form onSubmit={handleSubmit} className="col-lg-9 offset-lg-1 direction">
           <div className="form-row">
             <div className="form-group col-md-6">
-              <label for="username-register" className="text-muted mb-1">
+              <label htmlFor="username-register" className="text-muted mb-1">
                 <small>نام و نام خانوادگی</small>
               </label>
-              <input id="username-register" name="username" className="form-control" type="text" autocomplete="off" />
+              <input id="username-register" name="username" className="form-control" type="text" autoComplete="off" />
             </div>
 
             <div className="form-group col-md-6">
-              <label for="username-register" className="text-muted mb-1">
+              <label htmlFor="username-register" className="text-muted mb-1">
                 <small>نام کاربری</small>
               </label>
-              <input id="username-register" name="username" className="form-control" type="text" autocomplete="off" />
+              <input id="username-register" name="username" className="form-control" type="text" autoComplete="off" />
             </div>
           </div>
 
           <div className="form-row">
             <div className="form-group col-md-6">
-              <label for="group" className="text-muted mb-1">
+              <label htmlFor="group" className="text-muted mb-1">
                 <small>گروه</small>
               </label>
               <select id="group" className="form-control">

@@ -3,12 +3,6 @@ import { Link } from "react-router-dom"
 import Axios from "axios"
 import Page from "./Page"
 
-/*
-  "https://schedule-professor.liara.run/professor/login"
-  "https://schedule-professor.liara.run/professor/register"
-  "https://schedule-professor.liara.run/s/login"
-*/
-
 function HomeGuest() {
   const [username, setUsername] = useState()
   const [password, setPassword] = useState()
@@ -37,14 +31,14 @@ function HomeGuest() {
                 <label htmlFor="username-register" className="text-muted mb-1">
                   <small>شماره دانشجویی</small>
                 </label>
-                <input id="username-register" name="username" className="form-control" type="text" placeholder="شماره دانشجویی خود را وارد کنید" autoComplete="off" />
+                <input onChange={e => setUsername(e.target.value)} id="username-register" name="username" className="form-control" type="text" placeholder="شماره دانشجویی خود را وارد کنید" autoComplete="off" />
               </div>
 
               <div className="form-group">
                 <label htmlFor="password-register" className="text-muted mb-1">
                   <small>رمز عبور</small>
                 </label>
-                <input id="password-register" name="password" className="form-control" type="password" placeholder="رمز عبور خود را وارد کنید" />
+                <input onChange={e => setPassword(e.target.value)} id="password-register" name="password" className="form-control" type="password" placeholder="رمز عبور خود را وارد کنید" />
               </div>
               <button type="submit" className="py-3 mt-4 btn btn-lg btn-success btn-block">
                 ثبت نام دانشجو
