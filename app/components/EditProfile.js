@@ -12,19 +12,23 @@ function EditProfile() {
   const originalState = {
     profilePhoto: {
       value: "",
-      hasErrors: false
+      hasErrors: false,
+      message: ""
     },
     username: {
       value: "",
-      hasErrors: false
+      hasErrors: false,
+      message: ""
     },
     password: {
       value: "",
-      hasErrors: false
+      hasErrors: false,
+      message: ""
     },
     passwordConfirmation: {
       value: "",
-      hasErrors: false
+      hasErrors: false,
+      message: ""
     },
     sendCount: 0,
     isSaving: false
@@ -45,13 +49,31 @@ function EditProfile() {
         draft.passwordConfirmation.value = action.value
         return
       case "submitRequest":
-        draft.sendCount++
+        if (!draft.profilePhoto.hasErrors && !draft.username.hasErrors && !draft.password.hasErrors && !draft.passwordConfirmation.hasErrors) {
+          draft.sendCount++
+        }
         return
       case "saveRequestStarted":
         draft.isSaving = true
         return
       case "saveRequestFinished":
         draft.isSaving = false
+        return
+      case "photoRules":
+        draft.profilePhoto.hasErrors = true
+        draft.profilePhoto.message = "یک تصویر پروفایل انتخاب کنید."
+        return
+      case "usernameRules":
+        draft.username.hasErrors = true
+        draft.username.message = "یک نام کاربری انتخاب کنید."
+        return
+      case "passwordRules":
+        draft.password.hasErrors = true
+        draft.password.message = "یک رمز عبور انتخاب کنید."
+        return
+      case "passwordConfirmationRules":
+        draft.passwordConfirmation.hasErrors = true
+        draft.passwordConfirmation.message = "رمز عبور را تکرار کنید."
         return
     }
   }
@@ -62,6 +84,12 @@ function EditProfile() {
     e.preventDefault()
     dispatch({ type: "submitRequest" })
   }
+
+  useEffect(() => {
+    async function fetchProfile() {
+      const responce = await Axios.get()
+    }
+  }, [])
 
   useEffect(() => {
     if (state.sendCount) {
@@ -92,20 +120,21 @@ function EditProfile() {
   return (
     <>
       <Page title="ویرایش پروفایل">
-        <form onSubmit={submitHandler} class="col-lg-6 offset-lg-3 direction">
+        <form onSubmit={submitHandler} className="col-lg-6 offset-lg-3 direction">
           <div className="form-row">
             <div className="form-group col-md-6">
-              <label for="email-register" className="text-muted mb-1">
+              <label htmlFor="email-register" className="text-muted mb-1">
                 <small>عکس پروفایل</small>
               </label>
-              <input onChange={e => dispatch({ type: "photoChange", value: e.target.value })} id="email-register" name="email" className="form-control" type="file" autocomplete="off" />
+              <input onChange={e => dispatch({ type: "photoChange", value: e.target.value })} id="photo-register" name="photo" className="form-control" type="file" autoComplete="off" />
+              {state.profilePhoto.hasErrors && <div className="alert alert-danger small liveValidateMessage">Example error message should go here.</div>}
             </div>
 
             <div className="form-group col-md-6">
-              <label for="username-register" className="text-muted mb-1">
+              <label htmlFor="username-register" className="text-muted mb-1">
                 <small>نام کاربری</small>
               </label>
-              <input onChange={e => dispatch({ type: "usernameChange", value: e.target.value })} id="username-register" name="username" className="form-control" type="text" autocomplete="off" />
+              <input onChange={e => dispatch({ type: "usernameChange", value: e.target.value })} id="username-register" name="username" className="form-control" type="text" autoComplete="off" />
             </div>
           </div>
 
