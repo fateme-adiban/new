@@ -21,7 +21,7 @@ import Profile from "./components/Profile"
 
 function Main() {
   const initialState = {
-    loggedIn: Boolean(localStorage.getItem("token")),
+    loggedIn: Boolean(true),
     flashMessages: [],
     user: {
       token: localStorage.getItem("token"),

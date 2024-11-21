@@ -9,9 +9,6 @@ function HeaderLoggedIn(props) {
 
   function handleLogout() {
     appDispatch({ type: "logout" })
-    localStorage.removeItem("token")
-    localStorage.removeItem("username")
-    localStorage.removeItem("avatar")
   }
 
   return (
@@ -24,10 +21,10 @@ function HeaderLoggedIn(props) {
         <img className="small-header-avatar" src={appState.user.avatar} />
       </Link>
       <a className="btn btn-sm btn-success mr-2" href="/create-post">
-        Create Post
+        پروفایل
       </a>
       <button onClick={handleLogout} className="btn btn-sm btn-secondary signout">
-        Sign Out
+        خروج
       </button>
     </div>
   )
