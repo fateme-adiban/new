@@ -2,6 +2,35 @@
 #007bff
 #28a745
 */
+.form {
+  position: relative;
+}
+
+.form .fa-search {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #9ca3af;
+}
+
+.form span {
+  position: absolute;
+  right: 17px;
+  top: 13px;
+  padding: 2px;
+  border-left: 1px solid #d1d5db;
+}
+
+.form-input {
+  height: 55px;
+  text-indent: 33px;
+  border-radius: 10px;
+}
+
+.select-bar {
+  height: 55px;
+  border-radius: 10px;
+}
 
 /* our own changes */
 .direction,
@@ -32,8 +61,9 @@ form input {
 
 .professor-img {
   border-radius: 50%;
-  width: 60% !important;
-  margin-right: 20% !important;
+
+  width: 50% !important;
+  margin-right: 25% !important;
 }
 
 /* Home Guest */
@@ -134,16 +164,18 @@ form input {
 }
 
 .famous-product {
-  border: 1px solid lightgrey;
-  padding: 20px;
-  border-radius: 30px;
+  padding: 15px;
+  border-radius: 15px;
+  border-color: 1px solid rgba(13, 232, 220, 0);
   background: #fff;
   color: black;
   margin-bottom: 30px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
 }
 
 .famous-product img {
   width: 100%;
+  float: right !important;
 }
 
 .famous-product h3 {
@@ -151,20 +183,22 @@ form input {
   font-size: 25px;
   font-weight: 400;
   text-align: center;
-  color: #4e4e4e;
+  color: #000;
 }
 
 .famous-product .price {
   position: relative;
 }
 
-.famous-product .price p {
-  font-size: 17px !important;
+.famous-product .price .tiny-text {
+  font-size: 15px !important;
   margin-bottom: 2px;
+  color: #007bff;
 }
 
 .famous-product .price button {
   margin-right: 17px !important;
+  margin-top: 10px;
 }
 
 .famous-product .price span {
