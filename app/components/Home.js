@@ -12,7 +12,7 @@ function Home() {
         <div className="col-12">
           <div className="heading-section">
             <div class="row height d-flex justify-content-center align-items-center">
-              <div class="col-md-6 direction">
+              <div class="col-md-3 direction">
                 <select id="group" className="form-control select-bar">
                   {groups.map((group, index) => (
                     <option key={index} value={group}>
@@ -20,6 +20,12 @@ function Home() {
                     </option>
                   ))}
                 </select>
+                <span class="close-live-search">
+                  <i class="fas fa-times-circle"></i>
+                </span>
+                <span class="search-overlay-icon">
+                  <i class="fas fa-search"></i>
+                </span>
               </div>
               <div class="col-md-6">
                 <div class="form direction">
@@ -34,10 +40,10 @@ function Home() {
       <div className="row direction">
         <div className="col-lg-3 col-md-6">
           <div className="famous-product">
-            <h3>امیر جلالی بیدگلی</h3>
             <img className="professor-img" src="../images/profile.jpg" />
+            <h3>امیر جلالی بیدگلی</h3>
             <div className="price">
-              <p>دانشیار</p>
+              <p className="p-2">دانشیار</p>
               <p>گروه فیزیک</p>
               <button className="btn btn-sm btn-success mr-2">ارسال پیام</button>
               <button className="btn btn-sm btn-success mr-2">نمایش برنامه</button>
@@ -46,22 +52,10 @@ function Home() {
         </div>
         <div className="col-lg-3 col-md-6">
           <div className="famous-product">
-            <h3>امیر جلالی بیدگلی</h3>
             <img className="professor-img" src="../images/profile.jpg" />
-            <div className="price">
-              <p className="tiny-text">دانشیار</p>
-              <p className="tiny-text">گروه فیزیک</p>
-              <button className="btn btn-sm btn-success mr-2">ارسال پیام</button>
-              <button className="btn btn-sm btn-success mr-2">نمایش برنامه</button>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-3 col-md-6">
-          <div className="famous-product">
             <h3>امیر جلالی بیدگلی</h3>
-            <img className="professor-img" src="../images/profile.jpg" />
             <div className="price">
-              <p>دانشیار</p>
+              <p className="p-2">دانشیار</p>
               <p>گروه فیزیک</p>
               <button className="btn btn-sm btn-success mr-2">ارسال پیام</button>
               <button className="btn btn-sm btn-success mr-2">نمایش برنامه</button>
@@ -70,10 +64,22 @@ function Home() {
         </div>
         <div className="col-lg-3 col-md-6">
           <div className="famous-product">
-            <h3>امیر جلالی بیدگلی</h3>
             <img className="professor-img" src="../images/profile.jpg" />
+            <h3>امیر جلالی بیدگلی</h3>
             <div className="price">
-              <p>دانشیار</p>
+              <p className="p-2">دانشیار</p>
+              <p>گروه فیزیک</p>
+              <button className="btn btn-sm btn-success mr-2">ارسال پیام</button>
+              <button className="btn btn-sm btn-success mr-2">نمایش برنامه</button>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-3 col-md-6">
+          <div className="famous-product">
+            <img className="professor-img" src="../images/profile.jpg" />
+            <h3>امیر جلالی بیدگلی</h3>
+            <div className="price">
+              <p className="p-2">دانشیار</p>
               <p>گروه فیزیک</p>
               <button className="btn btn-sm btn-success mr-2">ارسال پیام</button>
               <button className="btn btn-sm btn-success mr-2">نمایش برنامه</button>
@@ -84,10 +90,10 @@ function Home() {
       <div className="row direction">
         <div className="col-lg-3 col-md-6">
           <div className="famous-product">
-            <h3>امیر جلالی بیدگلی</h3>
             <img className="professor-img" src="../images/profile.jpg" />
+            <h3>امیر جلالی بیدگلی</h3>
             <div className="price">
-              <p>دانشیار</p>
+              <p className="p-2">دانشیار</p>
               <p>گروه فیزیک</p>
               <button className="btn btn-sm btn-success mr-2">ارسال پیام</button>
               <button className="btn btn-sm btn-success mr-2">نمایش برنامه</button>
@@ -96,10 +102,10 @@ function Home() {
         </div>
         <div className="col-lg-3 col-md-6">
           <div className="famous-product">
-            <h3>امیر جلالی بیدگلی</h3>
             <img className="professor-img" src="../images/profile.jpg" />
+            <h3>امیر جلالی بیدگلی</h3>
             <div className="price">
-              <p>دانشیار</p>
+              <p className="p-2">دانشیار</p>
               <p>گروه فیزیک</p>
               <button className="btn btn-sm btn-success mr-2">ارسال پیام</button>
               <button className="btn btn-sm btn-success mr-2">نمایش برنامه</button>
@@ -108,10 +114,10 @@ function Home() {
         </div>
         <div className="col-lg-3 col-md-6">
           <div className="famous-product">
-            <h3>امیر جلالی بیدگلی</h3>
             <img className="professor-img" src="../images/profile.jpg" />
+            <h3>امیر جلالی بیدگلی</h3>
             <div className="price">
-              <p>دانشیار</p>
+              <p className="p-2">دانشیار</p>
               <p>گروه فیزیک</p>
               <button className="btn btn-sm btn-success mr-2">ارسال پیام</button>
               <button className="btn btn-sm btn-success mr-2">نمایش برنامه</button>
@@ -120,10 +126,10 @@ function Home() {
         </div>
         <div className="col-lg-3 col-md-6">
           <div className="famous-product">
-            <h3>امیر جلالی بیدگلی</h3>
             <img className="professor-img" src="../images/profile.jpg" />
+            <h3>امیر جلالی بیدگلی</h3>
             <div className="price">
-              <p>دانشیار</p>
+              <p className="p-2">دانشیار</p>
               <p>گروه فیزیک</p>
               <button className="btn btn-sm btn-success mr-2">ارسال پیام</button>
               <button className="btn btn-sm btn-success mr-2">نمایش برنامه</button>
