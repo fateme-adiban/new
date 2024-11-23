@@ -6,8 +6,10 @@ function RegisterTeacher() {
   const groups = ["آمار", "اخلاق", "اقتصاد اسلامي", "تربيت  بدني", "حسابداري", "حقوق  جزا و جرم  شناسي", "حقوق  خصوصي", "حقوق بين الملل", "حقوق عمومي", "حقوق مالكيت فكري", "رياضي", "زبان  و ادبيات  انگليسي", "زبان  و ادبيات  عربي", "زبان  و ادبيات  فارسي", "زيست شناسي", "شيعه شناسي", "شيمي", "علم اطلاعات و دانش شناسي", "علوم  تربيتي", "علوم قرآن و حديث", "علوم كامپيوتر", "فقه  و مباني  حقوق  اسلامي", "فلسفه  و كلام  اسلامي", "فيزيك", "مديريت بازرگاني", "مديريت صنعتي", "معارف", "معماري", "مهندسي  صنايع", "مهندسي برق", "مهندسي شيمي", "مهندسي عمران", "مهندسي كامپيوتر", "مهندسي مكانيك"]
   const ranks = ["استاد تمام", "دانشيار", "استادیار", "مربی"]
 
+  const [name, setName] = useState()
   const [username, setUsername] = useState()
   const [password, setPassword] = useState()
+
   const appDispatch = useContext(DispatchContext)
 
   async function handleSubmit(e) {
@@ -15,8 +17,6 @@ function RegisterTeacher() {
     try {
       await Axios.post("/professor/register", { username, password })
       console.log("User was successfully created.")
-      appDispatch({ type: "login" })
-      appDispatch({ type: "isProfessor" })
     } catch (e) {
       console.log("There was an error.")
     }
@@ -28,17 +28,16 @@ function RegisterTeacher() {
         <form onSubmit={handleSubmit} className="col-lg-9 offset-lg-1 direction">
           <div className="form-row">
             <div className="form-group col-md-6">
-              <label htmlFor="username-register" className="text-muted mb-1">
+              <label htmlFor="name-register" className="text-muted mb-1">
                 <small>نام و نام خانوادگی</small>
               </label>
-              <input id="username-register" name="username" className="form-control" type="text" autoComplete="off" />
+              <input onChange={e => setName(e.target.value)} id="name-register" name="username" className="form-control" type="text" autoComplete="off" />
             </div>
-
             <div className="form-group col-md-6">
               <label htmlFor="username-register" className="text-muted mb-1">
                 <small>نام کاربری</small>
               </label>
-              <input id="username-register" name="username" className="form-control" type="text" autoComplete="off" />
+              <input onChange={e => setUsername(e.target.value)} id="username-register" name="username" className="form-control" type="text" autoComplete="off" />
             </div>
           </div>
 
@@ -75,7 +74,7 @@ function RegisterTeacher() {
               <label htmlFor="password-register" className="text-muted mb-1">
                 <small>رمز عبور</small>
               </label>
-              <input id="password-register" name="password" className="form-control" type="password" />
+              <input onChange={e => setPassword(e.target.value)} id="password-register" name="password" className="form-control" type="password" />
             </div>
 
             <div className="form-group col-md-6">
