@@ -4,6 +4,7 @@ import Chat from "./Chat"
 import Page from "./Page"
 import StateContext from "../StateContext"
 import EditProfile from "./EditProfile"
+import Program from "./Program"
 
 function Profile() {
   const appState = useContext(StateContext)
@@ -34,7 +35,7 @@ function Profile() {
       <Routes>
         <Route path="" element={<EditProfile />} />
         <Route path="messages" element={<Chat />} />
-        {/* <Route path="program" element={<ProProgram />} /> */}
+        {/* <Route path="program" element={<Program />} /> */}
       </Routes>
     </Page>
   )

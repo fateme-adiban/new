@@ -26,8 +26,7 @@ function HeaderLoggedOut(props) {
     try {
       const response = await Axios.post("/professor/login", { username, password })
       if (response.data) {
-        // console.log(response.data)
-        appDispatch({ type: "login" })
+        appDispatch({ type: "login", data: response.data })
         appDispatch({ type: "isProfessor" })
       } else {
         console.log("Incorrect username / password.")
@@ -41,7 +40,7 @@ function HeaderLoggedOut(props) {
     <form onSubmit={e => e.preventDefault()} className="mb-0 pt-2 pt-md-0">
       <div className="row align-items-center">
         <div className="col-md mr-0 pr-md-0 mb-3 mb-md-0">
-          <input onChange={e => setUsername(e.target.value)} name="username" className="form-control form-control-sm input-dark" type="text" placeholder="نام کاربری" autoComplete="off" />
+          <input onChange={e => setUsername(e.target.value)} name="username" className="form-control form-control-sm input-dark" type="text" placeholder="شماره دانشجویی" autoComplete="off" />
         </div>
         <div className="col-md mr-0 pr-md-0 mb-3 mb-md-0">
           <input onChange={e => setPassword(e.target.value)} name="password" className="form-control form-control-sm input-dark" type="password" placeholder="رمز عبور" />

@@ -21,12 +21,12 @@ import Profile from "./components/Profile"
 
 function Main() {
   const initialState = {
-    loggedIn: Boolean(true),
+    loggedIn: Boolean(localStorage.getItem("token")),
     flashMessages: [],
     user: {
       token: localStorage.getItem("token"),
-      username: localStorage.getItem("username"),
-      avatar: localStorage.getItem("avatar")
+      id: localStorage.getItem("id"),
+      username: localStorage.getItem("username")
     },
     isProfessor: false
   }
@@ -53,12 +53,12 @@ function Main() {
   useEffect(() => {
     if (state.loggedIn) {
       localStorage.setItem("token", state.user.token)
+      localStorage.setItem("id", state.user.id)
       localStorage.setItem("username", state.user.username)
-      localStorage.setItem("avatar", state.user.avatar)
     } else {
       localStorage.removeItem("token")
-      localStorage.removeItem("username")
-      localStorage.removeItem("avatar")
+      localStorage.setItem("id", state.user.id)
+      localStorage.setItem("username", state.user.username)
     }
   }, [state.loggedIn])
 
@@ -70,7 +70,7 @@ function Main() {
             <FlashMessages messages={state.flashMessages} />
             <Header />
             <Routes>
-              <Route path="/profile/:username/*" element={<Profile />} />
+              <Route path="/profile/:id/*" element={<Profile />} />
               <Route path="/" element={state.loggedIn ? <Home /> : <HomeGuest />} />
               <Route path="/register-teacher" element={<RegisterTeacher />} />
               <Route path="/about-us" element={<About />} />

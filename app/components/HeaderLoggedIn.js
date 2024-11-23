@@ -12,17 +12,16 @@ function HeaderLoggedIn(props) {
   }
 
   return (
-    <div class="flex-row my-3 my-md-0">
+    <div className="flex-row my-3 my-md-0">
       <span className="mr-2 header-chat-icon text-white">
-        <i className="fas fa-comment"></i>
-        <span className="chat-count-badge text-white"> </span>
+        <i className="fas fa-comment"></i> <span className="chat-count-badge text-white"> </span>
       </span>
-      <Link to={`/profile/${appState.user.username}`} className="mr-2">
-        <img className="small-header-avatar" src={appState.user.avatar} />
-      </Link>
-      <a className="btn btn-sm btn-success mr-2" href="/create-post">
+      <Link to={`/profile/${appState.user.id}`} className="mr-2">
+        <img className="small-header-avatar" src="../images/profile.jpg" />
+      </Link>{" "}
+      <Link to={`/profile/${appState.user.id}`} className="btn btn-sm btn-success mr-2" href="/create-post">
         پروفایل
-      </a>
+      </Link>
       <button onClick={handleLogout} className="btn btn-sm btn-secondary signout">
         خروج
       </button>

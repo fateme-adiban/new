@@ -5,12 +5,13 @@ import Page from "./Page"
 
 function HomeGuest() {
   const [username, setUsername] = useState()
+  const [studentNumber, setStudentNumber] = useState()
   const [password, setPassword] = useState()
 
   async function handleSubmit(e) {
     e.preventDefault()
     try {
-      await Axios.post("/s/register", { username, password })
+      await Axios.post("/s/register", { username, password, studentNumber })
       console.log("User was successfully created.")
     } catch (e) {
       console.log("There was an error.")
@@ -29,9 +30,16 @@ function HomeGuest() {
             <form onSubmit={handleSubmit} className="login-form">
               <div className="form-group">
                 <label htmlFor="username-register" className="text-muted mb-1">
+                  <small>نام کاربری</small>
+                </label>
+                <input onChange={e => setStudentNumber(e.target.value)} id="username-register" name="username" className="form-control" type="text" placeholder=" نام کاربری خود را وارد کنید" autoComplete="off" />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="student-number-register" className="text-muted mb-1">
                   <small>شماره دانشجویی</small>
                 </label>
-                <input onChange={e => setUsername(e.target.value)} id="username-register" name="username" className="form-control" type="text" placeholder="شماره دانشجویی خود را وارد کنید" autoComplete="off" />
+                <input onChange={e => setUsername(e.target.value)} id="student-number-register" name="username" className="form-control" type="text" placeholder="شماره دانشجویی خود را وارد کنید" autoComplete="off" />
               </div>
 
               <div className="form-group">

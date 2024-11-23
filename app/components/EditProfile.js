@@ -10,7 +10,7 @@ function EditProfile() {
   const appDispatch = useContext(DispatchContext)
 
   const originalState = {
-    profilePhoto: {
+    photo: {
       value: "",
       hasErrors: false,
       message: ""
@@ -31,25 +31,30 @@ function EditProfile() {
       message: ""
     },
     sendCount: 0,
-    isSaving: false
+    isSaving: false,
+    wrongPassword: false
   }
 
   function ourReducer(draft, action) {
     switch (action.type) {
       case "photoChange":
-        draft.ProfilePhoto.value = action.value
+        draft.photo.value = action.value
+        draft.photo.hasErrors = false
         return
       case "usernameChange":
         draft.username.value = action.value
+        draft.username.hasErrors = false
         return
       case "passwordChange":
         draft.password.value = action.value
+        draft.password.hasErrors = false
         return
       case "passwordConfirm":
         draft.passwordConfirmation.value = action.value
+        draft.passwordConfirmation.hasErrors = false
         return
       case "submitRequest":
-        if (!draft.profilePhoto.hasErrors && !draft.username.hasErrors && !draft.password.hasErrors && !draft.passwordConfirmation.hasErrors) {
+        if (!draft.photo.hasErrors && !draft.username.hasErrors && !draft.password.hasErrors && !draft.passwordConfirmation.hasErrors && draft.password.value === draft.passwordConfirmation.value) {
           draft.sendCount++
         }
         return
@@ -60,20 +65,31 @@ function EditProfile() {
         draft.isSaving = false
         return
       case "photoRules":
-        draft.profilePhoto.hasErrors = true
-        draft.profilePhoto.message = "یک تصویر پروفایل انتخاب کنید."
+        if (!action.value.trim()) {
+          draft.photo.hasErrors = true
+          draft.photo.message = "تصویر را انتخاب کنید."
+        }
         return
       case "usernameRules":
-        draft.username.hasErrors = true
-        draft.username.message = "یک نام کاربری انتخاب کنید."
+        if (!action.value.trim()) {
+          draft.username.hasErrors = true
+          draft.username.message = "نام کاربری را وارد کنید."
+        }
         return
       case "passwordRules":
-        draft.password.hasErrors = true
-        draft.password.message = "یک رمز عبور انتخاب کنید."
+        if (!action.value.trim()) {
+          draft.password.hasErrors = true
+          draft.password.message = "رمز عبور را وارد کنید."
+        }
         return
       case "passwordConfirmationRules":
-        draft.passwordConfirmation.hasErrors = true
-        draft.passwordConfirmation.message = "رمز عبور را تکرار کنید."
+        if (!action.value.trim()) {
+          draft.passwordConfirmation.hasErrors = true
+          draft.passwordConfirmation.message = "رمز عبور را تکرار کنید."
+        }
+        return
+      case "wrongPassword":
+        draft.wrongPassword = true
         return
     }
   }
@@ -82,14 +98,16 @@ function EditProfile() {
 
   function submitHandler(e) {
     e.preventDefault()
+    if (state.password.value !== state.passwordConfirmation.value) {
+      dispatch({ type: "passwordConfirmationRules", value: "state.passwordConfirmation.value" })
+    }
+    dispatch({ type: "photoRules", value: state.photo.value })
+    dispatch({ type: "usernameRules", value: state.username.value })
+    dispatch({ type: "passwordRules", value: state.password.value })
+    dispatch({ type: "passwordConfirmationRules", value: state.passwordConfirmation.value })
+
     dispatch({ type: "submitRequest" })
   }
-
-  useEffect(() => {
-    async function fetchProfile() {
-      const responce = await Axios.get()
-    }
-  }, [])
 
   useEffect(() => {
     if (state.sendCount) {
@@ -98,7 +116,7 @@ function EditProfile() {
       async function editProfile() {
         if (appState.isProfessor) {
           try {
-            const responce = await Axios.post("/professor/update", { photo: state.profilePhoto.value, username: state.username.value, password: state.password.value, token: appState.user.token }, { cancelToken: ourRequest.token })
+            const responce = await Axios.post("/professor/update", { photo: state.photo.value, username: state.username.value, password: state.password.value, token: appState.user.token }, { cancelToken: ourRequest.token })
             dispatch({ type: "saveRequestFinished" })
             appDispatch({ type: "flashMessage", value: "پروفایل ویرایش شد." })
           } catch (e) {
@@ -106,13 +124,18 @@ function EditProfile() {
           }
         } else {
           try {
-            const responce = await Axios.post("/s/update", { photo: state.profilePhoto.value, username: state.username.value, password: state.password.value, token: appState.user.token }, { cancelToken: ourRequest.token })
-            appDispatch({ type: "flashMessage", value: "پروفایل ویرایش شد." })
+            const responce = await Axios.post("/s/update", { photo: state.photo.value, username: state.username.value, password: state.password.value, token: appState.user.token }, { cancelToken: ourRequest.token })
             dispatch({ type: "saveRequestFinished" })
+            appDispatch({ type: "flashMessage", value: "پروفایل ویرایش شد." })
+            alert("post updated")
           } catch (e) {
             console.log("There was a problem.")
           }
         }
+      }
+      editProfile()
+      return () => {
+        ourRequest.cancel
       }
     }
   }, [state.sendCount])
@@ -126,15 +149,16 @@ function EditProfile() {
               <label htmlFor="email-register" className="text-muted mb-1">
                 <small>عکس پروفایل</small>
               </label>
-              <input onChange={e => dispatch({ type: "photoChange", value: e.target.value })} id="photo-register" name="photo" className="form-control" type="file" autoComplete="off" />
-              {state.profilePhoto.hasErrors && <div className="alert alert-danger small liveValidateMessage">Example error message should go here.</div>}
+              <input onBlur={e => dispatch({ type: "photoRules", value: e.target.value })} onChange={e => dispatch({ type: "photoChange", value: e.target.value })} id="photo-register" name="photo" className="form-control" type="file" autoComplete="off" />
+              {state.photo.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.photo.message}</div>}
             </div>
 
             <div className="form-group col-md-6">
               <label htmlFor="username-register" className="text-muted mb-1">
                 <small>نام کاربری</small>
               </label>
-              <input onChange={e => dispatch({ type: "usernameChange", value: e.target.value })} id="username-register" name="username" className="form-control" type="text" autoComplete="off" />
+              <input onBlur={e => dispatch({ type: "usernameRules", value: e.target.value })} onChange={e => dispatch({ type: "usernameChange", value: e.target.value })} id="username-register" name="username" className="form-control" type="text" autoComplete="off" />
+              {state.username.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.username.message}</div>}
             </div>
           </div>
 
@@ -143,14 +167,16 @@ function EditProfile() {
               <label htmlFor="password-register" className="text-muted mb-1">
                 <small>رمز عبور</small>
               </label>
-              <input onChange={e => dispatch({ type: "passwordChange", value: e.target.value })} id="password-register" name="password" className="form-control" type="password" />
+              <input onBlur={e => dispatch({ type: "passwordRules", value: e.target.value })} onChange={e => dispatch({ type: "passwordChange", value: e.target.value })} id="password-register" name="password" className="form-control" type="password" />
+              {state.password.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.password.message}</div>}
             </div>
 
             <div className="form-group col-md-6">
               <label htmlFor="password-register" className="text-muted mb-1">
                 <small>تایید رمز</small>
               </label>
-              <input onChange={e => dispatch({ type: "passwordConfirm", value: e.target.value })} id="password-register" name="password" className="form-control" type="password" />
+              <input onBlur={e => dispatch({ type: "passwordConfirmationRules", value: e.target.value })} onChange={e => dispatch({ type: "passwordConfirm", value: e.target.value })} id="password-register" name="password" className="form-control" type="password" />
+              {state.passwordConfirmation.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.passwordConfirmation.message}</div>}
             </div>
           </div>
 

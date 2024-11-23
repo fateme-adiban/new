@@ -11,8 +11,14 @@ function Home() {
       <div className="row">
         <div className="col-12">
           <div className="heading-section">
-            <div class="row height d-flex justify-content-center align-items-center">
-              <div class="col-md-3 direction">
+            <div className="row height d-flex justify-content-center align-items-center">
+              <span className="close-live-search">
+                <i className="fas fa-times-circle"></i>
+              </span>
+              <span className="search-overlay-icon">
+                <i className="fas fa-search"></i>
+              </span>
+              <div className="col-md-3 direction">
                 <select id="group" className="form-control select-bar">
                   {groups.map((group, index) => (
                     <option key={index} value={group}>
@@ -20,17 +26,11 @@ function Home() {
                     </option>
                   ))}
                 </select>
-                <span class="close-live-search">
-                  <i class="fas fa-times-circle"></i>
-                </span>
-                <span class="search-overlay-icon">
-                  <i class="fas fa-search"></i>
-                </span>
               </div>
-              <div class="col-md-6">
-                <div class="form direction">
-                  <i class="fa fa-search direction"></i>
-                  <input type="text" class="form-control form-input" placeholder="نام استاد را وارد کنید..." />
+              <div className="col-md-6">
+                <div className="form direction">
+                  <i className="fa fa-search direction"></i>
+                  <input type="text" className="form-control form-input" placeholder="نام استاد را وارد کنید..." />
                 </div>
               </div>
             </div>
