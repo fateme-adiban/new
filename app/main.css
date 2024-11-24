@@ -142,6 +142,10 @@ form input {
   }
 }
 
+.footer {
+  margin-top: 25px;
+}
+
 .professor-img {
   border-radius: 50%;
   width: 50% !important;
