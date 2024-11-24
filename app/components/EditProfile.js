@@ -25,14 +25,9 @@ function EditProfile() {
       hasErrors: false,
       message: ""
     },
-    passwordConfirmation: {
-      value: "",
-      hasErrors: false,
-      message: ""
-    },
     sendCount: 0,
     isSaving: false,
-    wrongPassword: false
+    NotFound: false
   }
 
   function ourReducer(draft, action) {
@@ -49,12 +44,8 @@ function EditProfile() {
         draft.password.value = action.value
         draft.password.hasErrors = false
         return
-      case "passwordConfirm":
-        draft.passwordConfirmation.value = action.value
-        draft.passwordConfirmation.hasErrors = false
-        return
       case "submitRequest":
-        if (!draft.photo.hasErrors && !draft.username.hasErrors && !draft.password.hasErrors && !draft.passwordConfirmation.hasErrors && draft.password.value === draft.passwordConfirmation.value) {
+        if (!draft.photo.hasErrors && !draft.username.hasErrors && !draft.password.hasErrors) {
           draft.sendCount++
         }
         return
@@ -82,15 +73,6 @@ function EditProfile() {
           draft.password.message = "رمز عبور را وارد کنید."
         }
         return
-      case "passwordConfirmationRules":
-        if (!action.value.trim()) {
-          draft.passwordConfirmation.hasErrors = true
-          draft.passwordConfirmation.message = "رمز عبور را تکرار کنید."
-        }
-        return
-      case "wrongPassword":
-        draft.wrongPassword = true
-        return
     }
   }
 
@@ -98,14 +80,9 @@ function EditProfile() {
 
   function submitHandler(e) {
     e.preventDefault()
-    if (state.password.value !== state.passwordConfirmation.value) {
-      dispatch({ type: "passwordConfirmationRules", value: "state.passwordConfirmation.value" })
-    }
     dispatch({ type: "photoRules", value: state.photo.value })
     dispatch({ type: "usernameRules", value: state.username.value })
     dispatch({ type: "passwordRules", value: state.password.value })
-    dispatch({ type: "passwordConfirmationRules", value: state.passwordConfirmation.value })
-
     dispatch({ type: "submitRequest" })
   }
 
@@ -116,7 +93,7 @@ function EditProfile() {
       async function editProfile() {
         if (appState.isProfessor) {
           try {
-            const responce = await Axios.post("/professor/update", { photo: state.photo.value, username: state.username.value, password: state.password.value, token: appState.user.token }, { cancelToken: ourRequest.token })
+            const response = await Axios.post("/professor/update", { photo: state.photo.value, username: state.username.value, password: state.password.value, token: appState.user.token }, { cancelToken: ourRequest.token })
             dispatch({ type: "saveRequestFinished" })
             appDispatch({ type: "flashMessage", value: "پروفایل ویرایش شد." })
           } catch (e) {
@@ -124,7 +101,7 @@ function EditProfile() {
           }
         } else {
           try {
-            const responce = await Axios.post("/s/update", { username: state.username.value, password: state.password.value, photo: state.photo.value, token: appState.user.token })
+            const response = await Axios.post("/s/update", { username: state.username.value, password: state.password.value, photo: state.photo.value, token: appState.user.token })
             dispatch({ type: "saveRequestFinished" })
             appDispatch({ type: "flashMessage", value: "پروفایل ویرایش شد." })
             alert("post updated")
@@ -163,20 +140,12 @@ function EditProfile() {
           </div>
 
           <div className="form-row">
-            <div className="form-group col-md-6">
+            <div className="form-group col-md-12">
               <label htmlFor="password-register" className="text-muted mb-1">
                 <small>رمز عبور</small>
               </label>
               <input onBlur={e => dispatch({ type: "passwordRules", value: e.target.value })} onChange={e => dispatch({ type: "passwordChange", value: e.target.value })} id="password-register" name="password" className="form-control" type="password" />
               {state.password.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.password.message}</div>}
-            </div>
-
-            <div className="form-group col-md-6">
-              <label htmlFor="password-register" className="text-muted mb-1">
-                <small>تایید رمز</small>
-              </label>
-              <input onBlur={e => dispatch({ type: "passwordConfirmationRules", value: e.target.value })} onChange={e => dispatch({ type: "passwordConfirm", value: e.target.value })} id="password-register" name="password" className="form-control" type="password" />
-              {state.passwordConfirmation.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.passwordConfirmation.message}</div>}
             </div>
           </div>
 

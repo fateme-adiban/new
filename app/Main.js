@@ -18,6 +18,7 @@ import About from "./components/About"
 import Terms from "./components/Terms"
 import FlashMessages from "./components/FlashMessages"
 import Profile from "./components/Profile"
+import NotFound from "./components/NotFound"
 
 function Main() {
   const initialState = {
@@ -26,7 +27,9 @@ function Main() {
     user: {
       token: localStorage.getItem("token"),
       id: localStorage.getItem("id"),
-      username: localStorage.getItem("username")
+      // username: localStorage.getItem("username"),
+      // studentNumber: localStorage.getItem("studentNumber"),
+      image: localStorage.getItem("image")
     },
     isProfessor: false
   }
@@ -54,11 +57,15 @@ function Main() {
     if (state.loggedIn) {
       localStorage.setItem("token", state.user.token)
       localStorage.setItem("id", state.user.id)
-      localStorage.setItem("username", state.user.username)
+      // localStorage.setItem("username", state.user.username)
+      // localStorage.setItem("studentNumber", state.user.studentNumber)
+      // localStorage.setItem("image", state.user.image)
     } else {
       localStorage.removeItem("token")
-      localStorage.setItem("id", state.user.id)
-      localStorage.setItem("username", state.user.username)
+      localStorage.removeItem("id")
+      // localStorage.removeItem("username")
+      // localStorage.removeItem("studentNumber")
+      // localStorage.removeItem("image")
     }
   }, [state.loggedIn])
 
@@ -75,6 +82,7 @@ function Main() {
               <Route path="/register-teacher" element={<RegisterTeacher />} />
               <Route path="/about-us" element={<About />} />
               <Route path="/terms" element={<Terms />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
             <Footer />
           </BrowserRouter>

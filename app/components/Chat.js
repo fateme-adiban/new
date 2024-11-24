@@ -4,7 +4,7 @@ import Page from "./Page"
 function Chat() {
   return (
     <>
-      <Page title="صفحه چت">
+      <Page title="ارسال پیام">
         <div id="chat-wrapper" class="shadow border-top border-left border-right chat-border">
           <div class="chat-title-bar bg-primary chat-border">
             صفحه چت
