@@ -1,6 +1,7 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { useImmer } from "use-immer"
 import Page from "./Page"
+import HomeCards from "./HomeCards"
 import Axios from "axios"
 
 function Home() {
@@ -14,14 +15,23 @@ function Home() {
   })
 
   useEffect(() => {
-    const delay = setTimeout(() => {
+    if (state.searchTerm.trim()) {
       setState(draft => {
-        draft.requestCount++
-        console.log(state.searchTerm, state.groupSearch)
+        draft.show = "loading"
       })
-    }, 3000)
+      const delay = setTimeout(() => {
+        setState(draft => {
+          draft.requestCount++
+          console.log(state.searchTerm, state.groupSearch)
+        })
+      }, 3000)
 
-    return () => clearTimeout(delay)
+      return () => clearTimeout(delay)
+    } else {
+      setState(draft => {
+        draft.show = "neither"
+      })
+    }
   }, [state.searchTerm])
 
   useEffect(() => {
@@ -72,13 +82,13 @@ function Home() {
         <div className="col-12">
           <div className="heading-section">
             <div className="row height d-flex justify-content-center align-items-center">
-              <span className="close-live-search">
+              {/* <span className="close-live-search">
                 <i className="fas fa-times-circle"></i>
               </span>
               <span className="search-overlay-icon">
                 <i className="fas fa-search"></i>
-              </span>
-              <div className="col-md-3 direction">
+              </span> */}
+              <div className="col-md-4 direction">
                 <select onChange={handleGroup} id="group" className="form-control select-bar">
                   {groups.map((group, index) => (
                     <option key={index} value={group}>
@@ -98,110 +108,7 @@ function Home() {
         </div>
       </div>
       <div className={"circle-loader " + (state.show == "loading" ? "circle-loader--visible" : "")}></div>
-      {state.show != "loading" && (
-        <>
-          <div className="row direction">
-            <div className="col-lg-3 col-md-6">
-              <div className="famous-product">
-                <img className="professor-img" src="../images/profile.jpg" />
-                <h3>امیر جلالی بیدگلی</h3>
-                <div className="price">
-                  <p className="p-2">دانشیار</p>
-                  <p>گروه فیزیک</p>
-                  <button className="btn btn-sm btn-success mr-2">ارسال پیام</button>
-                  <button className="btn btn-sm btn-success mr-2">نمایش برنامه</button>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6">
-              <div className="famous-product">
-                <img className="professor-img" src="../images/profile.jpg" />
-                <h3>امیر جلالی بیدگلی</h3>
-                <div className="price">
-                  <p className="p-2">دانشیار</p>
-                  <p>گروه فیزیک</p>
-                  <button className="btn btn-sm btn-success mr-2">ارسال پیام</button>
-                  <button className="btn btn-sm btn-success mr-2">نمایش برنامه</button>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6">
-              <div className="famous-product">
-                <img className="professor-img" src="../images/profile.jpg" />
-                <h3>امیر جلالی بیدگلی</h3>
-                <div className="price">
-                  <p className="p-2">دانشیار</p>
-                  <p>گروه فیزیک</p>
-                  <button className="btn btn-sm btn-success mr-2">ارسال پیام</button>
-                  <button className="btn btn-sm btn-success mr-2">نمایش برنامه</button>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6">
-              <div className="famous-product">
-                <img className="professor-img" src="../images/profile.jpg" />
-                <h3>امیر جلالی بیدگلی</h3>
-                <div className="price">
-                  <p className="p-2">دانشیار</p>
-                  <p>گروه فیزیک</p>
-                  <button className="btn btn-sm btn-success mr-2">ارسال پیام</button>
-                  <button className="btn btn-sm btn-success mr-2">نمایش برنامه</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="row direction">
-            <div className="col-lg-3 col-md-6">
-              <div className="famous-product">
-                <img className="professor-img" src="../images/profile.jpg" />
-                <h3>امیر جلالی بیدگلی</h3>
-                <div className="price">
-                  <p className="p-2">دانشیار</p>
-                  <p>گروه فیزیک</p>
-                  <button className="btn btn-sm btn-success mr-2">ارسال پیام</button>
-                  <button className="btn btn-sm btn-success mr-2">نمایش برنامه</button>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6">
-              <div className="famous-product">
-                <img className="professor-img" src="../images/profile.jpg" />
-                <h3>امیر جلالی بیدگلی</h3>
-                <div className="price">
-                  <p className="p-2">دانشیار</p>
-                  <p>گروه فیزیک</p>
-                  <button className="btn btn-sm btn-success mr-2">ارسال پیام</button>
-                  <button className="btn btn-sm btn-success mr-2">نمایش برنامه</button>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6">
-              <div className="famous-product">
-                <img className="professor-img" src="../images/profile.jpg" />
-                <h3>امیر جلالی بیدگلی</h3>
-                <div className="price">
-                  <p className="p-2">دانشیار</p>
-                  <p>گروه فیزیک</p>
-                  <button className="btn btn-sm btn-success mr-2">ارسال پیام</button>
-                  <button className="btn btn-sm btn-success mr-2">نمایش برنامه</button>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6">
-              <div className="famous-product">
-                <img className="professor-img" src="../images/profile.jpg" />
-                <h3>امیر جلالی بیدگلی</h3>
-                <div className="price">
-                  <p className="p-2">دانشیار</p>
-                  <p>گروه فیزیک</p>
-                  <button className="btn btn-sm btn-success mr-2">ارسال پیام</button>
-                  <button className="btn btn-sm btn-success mr-2">نمایش برنامه</button>
-                </div>
-              </div>
-            </div>
-          </div>{" "}
-        </>
-      )}
+      {state.show != "loading" && <HomeCards />}
     </Page>
   )
 }

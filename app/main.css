@@ -147,13 +147,15 @@ form input {
 }
 
 .professor-img {
+  float: right !important;
   border-radius: 50%;
-  width: 50% !important;
-  margin-right: 25% !important;
-  margin-top: 2px !important;
+  width: 35% !important;
+  margin-top: -5px !important;
 }
 
-.famous-product {
+.professor-card {
+  width: 350px;
+  height: 150px;
   padding: 20px;
   border-radius: 15px;
   background: #fff;
@@ -162,40 +164,34 @@ form input {
   margin-bottom: 30px;
 }
 
-.famous-product h3 {
-  margin-bottom: 20px;
-  font-size: 20px;
+.professor-card h3 {
+  margin-bottom: 10px;
+  padding-right: 5px;
+  font-size: 18px;
   font-weight: 400;
   text-align: center;
   color: #000;
 }
 
-.famous-product .price {
-  position: relative;
+.professor-card h3:after {
+  display: block;
+  height: 1px;
+  background-color: lightgray;
+  content: " ";
+  width: 100%;
+  margin-top: 3px;
 }
 
-.famous-product .price p {
+.professor-card p {
   font-size: 15px !important;
   margin-bottom: 2px;
   color: #007bff;
-  display: inline;
-  margin-right: 30px;
-  padding-right: 8px;
+  padding-right: 130px !important;
 }
 
-.famous-product .price .p-2 {
-  padding-right: 3px !important;
-}
-
-.famous-product .price button {
-  margin-right: 17px !important;
-  margin-top: 10px;
-}
-
-.famous-product .price span {
-  position: absolute;
-  top: 5px;
-  right: 0px;
+.professor-card button {
+  margin-right: 15px !important;
+  margin-top: 8px;
 }
 
 /* prev changes */
@@ -511,10 +507,12 @@ textarea.tall-textarea {
   transition: opacity 0.45s ease-out, visibility 0.45s ease-out;
   visibility: hidden;
   position: absolute;
-  left: 50%;
+  right: 50%;
   box-sizing: border-box;
-  width: 65px;
-  height: 65px;
+  width: 80px;
+  height: 80px;
+  margin-top: -50px;
+  margin-right: -40px;
   border-radius: 100%;
   border: 10px solid rgba(73, 80, 87, 0.2);
   border-top-color: #495057;
