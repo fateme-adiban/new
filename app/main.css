@@ -167,7 +167,7 @@ form input {
 .professor-card h3 {
   margin-bottom: 10px;
   padding-right: 5px;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 400;
   text-align: center;
   color: #000;
@@ -178,8 +178,9 @@ form input {
   height: 1px;
   background-color: lightgray;
   content: " ";
-  width: 100%;
-  margin-top: 3px;
+  width: 60%;
+  margin-right: 123px !important;
+  margin-top: 5px;
 }
 
 .professor-card p {
@@ -191,7 +192,41 @@ form input {
 
 .professor-card button {
   margin-right: 15px !important;
-  margin-top: 8px;
+  margin-top: 5px;
+}
+
+.pagination {
+  width: 100% !important;
+  margin-bottom: -30px;
+  list-style: none;
+  height: 31.5px;
+  width: 31.5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.active {
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+}
+
+.page-item {
+  list-style: none;
+  padding: 2px 12px;
+  height: 31.5px;
+  width: 31.5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2px;
+}
+
+.home {
+  margin-top: -50px !important;
 }
 
 /* prev changes */

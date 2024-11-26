@@ -1,36 +1,10 @@
-import React, { useEffect, useState } from "react"
-import LoadingDotsIcon from "./LoadingDotsIcon"
-import Axios from "axios"
-import Pagination from "./Pagination"
+import React, { useContext, useEffect, useState } from "react"
 
-function HomeCards() {
-  const [currentPage, setCurrentPage] = useState(1)
-  const [cardsPerPage, setCardsPerPage] = useState(9)
-
-  useEffect(() => {
-    async function fetchCards() {
-      try {
-        const response = await Axios.get("/professor/all")
-        console.log(response.data)
-        setCards(response.data)
-        setIsLoading(false)
-      } catch (e) {
-        console.log("There was a problem.")
-      }
-    }
-    fetchCards()
-  }, [])
-
-  if (isLoading) return <LoadingDotsIcon />
-
-  const lastCardIndex = currentPage + cardsPerPage
-  const firstCardIndx = lastCardIndex - cardsPerPage
-  const currentCard = cards.slice(firstCardIndx, lastCardIndex)
-
+function HomeCards(props) {
   return (
     <>
-      <div className="row direction">
-        {currentCard.map(card => {
+      <div className="row direction home">
+        {props.cards.map(card => {
           return (
             <>
               <div key={card._id} className="col-lg-4 col-md-6">
@@ -47,7 +21,6 @@ function HomeCards() {
           )
         })}
       </div>
-      <Pagination totalCards={cards.length} cardsPerPage={cardsPerPage} setCurrentPage={setCardsPerPage} />
     </>
   )
 }

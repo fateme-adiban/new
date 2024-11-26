@@ -1,8 +1,12 @@
 import React, { useContext, useEffect, useState } from "react"
 import { useImmer } from "use-immer"
+import ReactPaginate from "react-paginate"
+import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai"
+import { IconContext } from "react-icons"
+import Axios from "axios"
 import Page from "./Page"
 import HomeCards from "./HomeCards"
-import Axios from "axios"
+import LoadingDotsIcon from "./LoadingDotsIcon"
 
 function Home() {
   const groups = ["آمار", "اخلاق", "اقتصاد اسلامي", "تربيت  بدني", "حسابداري", "حقوق  جزا و جرم  شناسي", "حقوق  خصوصي", "حقوق بين الملل", "حقوق عمومي", "حقوق مالكيت فكري", "رياضي", "زبان  و ادبيات  انگليسي", "زبان  و ادبيات  عربي", "زبان  و ادبيات  فارسي", "زيست شناسي", "شيعه شناسي", "شيمي", "علم اطلاعات و دانش شناسي", "علوم  تربيتي", "علوم قرآن و حديث", "علوم كامپيوتر", "فقه  و مباني  حقوق  اسلامي", "فلسفه  و كلام  اسلامي", "فيزيك", "مديريت بازرگاني", "مديريت صنعتي", "معارف", "معماري", "مهندسي  صنايع", "مهندسي برق", "مهندسي شيمي", "مهندسي عمران", "مهندسي كامپيوتر", "مهندسي مكانيك"]
@@ -13,6 +17,12 @@ function Home() {
     show: "nither",
     requestCount: 0
   })
+
+  const [cards, setCards] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  const [currentPage, setCurrentPage] = useState(1)
+  const [cardsPerPage] = useState(9)
 
   useEffect(() => {
     if (state.searchTerm.trim()) {
@@ -61,6 +71,22 @@ function Home() {
     }
   }, [state.requestCount])
 
+  useEffect(() => {
+    async function fetchCards() {
+      try {
+        const response = await Axios.get("/professor/all")
+        console.log(response.data)
+        setCards(response.data)
+        setIsLoading(false)
+      } catch (e) {
+        console.log("There was a problem.")
+      }
+    }
+    fetchCards()
+  }, [])
+
+  if (isLoading) return <LoadingDotsIcon />
+
   function handleInput(e) {
     const value = e.target.value
     setState(draft => {
@@ -76,18 +102,16 @@ function Home() {
     })
   }
 
+  const lastCardIndex = currentPage * cardsPerPage
+  const firstCardIndex = lastCardIndex - cardsPerPage
+  const currentCards = cards.slice(firstCardIndex, lastCardIndex)
+
   return (
     <Page title="اساتید" wide={true}>
       <div className="row">
         <div className="col-12">
           <div className="heading-section">
             <div className="row height d-flex justify-content-center align-items-center">
-              {/* <span className="close-live-search">
-                <i className="fas fa-times-circle"></i>
-              </span>
-              <span className="search-overlay-icon">
-                <i className="fas fa-search"></i>
-              </span> */}
               <div className="col-md-4 direction">
                 <select onChange={handleGroup} id="group" className="form-control select-bar">
                   {groups.map((group, index) => (
@@ -108,7 +132,27 @@ function Home() {
         </div>
       </div>
       <div className={"circle-loader " + (state.show == "loading" ? "circle-loader--visible" : "")}></div>
-      {state.show != "loading" && <HomeCards />}
+      {state.show != "loading" && <HomeCards cards={currentCards} />}
+      <ReactPaginate
+        containerClassName={"pagination"}
+        activeClassName={"active"}
+        pageClassName={"page-item"}
+        onPageChange={event => {
+          setCurrentPage(event.selected + 1)
+        }}
+        breakLabel="..."
+        pageCount={Math.ceil(cards.length / cardsPerPage)}
+        previousLabel={
+          <IconContext.Provider value={{ color: "#B8C1CC", size: "36px" }}>
+            <AiFillLeftCircle />
+          </IconContext.Provider>
+        }
+        nextLabel={
+          <IconContext.Provider value={{ color: "#B8C1CC", size: "36px" }}>
+            <AiFillRightCircle />
+          </IconContext.Provider>
+        }
+      />
     </Page>
   )
 }
