@@ -5,12 +5,12 @@ import DispatchContext from "../DispatchContext"
 function HeaderLoggedOut() {
   const appDispatch = useContext(DispatchContext)
 
-  const [username, setUsername] = useState()
+  const [studentNumber, setStudentNumber] = useState()
   const [password, setPassword] = useState()
 
   async function handleLoginStudent() {
     try {
-      const response = await Axios.post("/s/login", { username, password })
+      const response = await Axios.post("/s/login", { studentNumber, password })
       if (response.data) {
         console.log(response.data)
         appDispatch({ type: "login", data: response.data })
@@ -41,7 +41,7 @@ function HeaderLoggedOut() {
     <form onSubmit={e => e.preventDefault()} className="mb-0 pt-2 pt-md-0">
       <div className="row align-items-center">
         <div className="col-md mr-0 pr-md-0 mb-3 mb-md-0">
-          <input onChange={e => setUsername(e.target.value)} name="username" className="form-control form-control-sm input-dark" type="text" placeholder="شماره دانشجویی" autoComplete="off" />
+          <input onChange={e => setStudentNumber(e.target.value)} name="student-number" className="form-control form-control-sm input-dark" type="text" placeholder="شماره دانشجویی" autoComplete="off" />
         </div>
         <div className="col-md mr-0 pr-md-0 mb-3 mb-md-0">
           <input onChange={e => setPassword(e.target.value)} name="password" className="form-control form-control-sm input-dark" type="password" placeholder="رمز عبور" />

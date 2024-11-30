@@ -5,17 +5,17 @@ import Axios from "axios"
 import StateContext from "../StateContext"
 import DispatchContext from "../DispatchContext"
 
-function EditProfile() {
+function EditStudentProfile() {
   const appState = useContext(StateContext)
   const appDispatch = useContext(DispatchContext)
 
   const originalState = {
-    photo: {
+    image: {
       value: "",
       hasErrors: false,
       message: ""
     },
-    username: {
+    name: {
       value: "",
       hasErrors: false,
       message: ""
@@ -32,20 +32,20 @@ function EditProfile() {
 
   function ourReducer(draft, action) {
     switch (action.type) {
-      case "photoChange":
-        draft.photo.value = action.value
-        draft.photo.hasErrors = false
+      case "imageChange":
+        draft.image.value = action.value
+        draft.image.hasErrors = false
         return
-      case "usernameChange":
-        draft.username.value = action.value
-        draft.username.hasErrors = false
+      case "nameChange":
+        draft.name.value = action.value
+        draft.name.hasErrors = false
         return
       case "passwordChange":
         draft.password.value = action.value
         draft.password.hasErrors = false
         return
       case "submitRequest":
-        if (!draft.photo.hasErrors && !draft.username.hasErrors && !draft.password.hasErrors) {
+        if (!draft.image.hasErrors && !draft.name.hasErrors && !draft.password.hasErrors) {
           draft.sendCount++
         }
         return
@@ -55,16 +55,16 @@ function EditProfile() {
       case "saveRequestFinished":
         draft.isSaving = false
         return
-      case "photoRules":
+      case "imageRules":
         if (!action.value.trim()) {
-          draft.photo.hasErrors = true
-          draft.photo.message = "تصویر را انتخاب کنید."
+          draft.image.hasErrors = true
+          draft.image.message = "تصویر را انتخاب کنید."
         }
         return
-      case "usernameRules":
+      case "nameRules":
         if (!action.value.trim()) {
-          draft.username.hasErrors = true
-          draft.username.message = "نام کاربری را وارد کنید."
+          draft.name.hasErrors = true
+          draft.name.message = "نام کاربری را وارد کنید."
         }
         return
       case "passwordRules":
@@ -80,8 +80,8 @@ function EditProfile() {
 
   function submitHandler(e) {
     e.preventDefault()
-    dispatch({ type: "photoRules", value: state.photo.value })
-    dispatch({ type: "usernameRules", value: state.username.value })
+    dispatch({ type: "imageRules", value: state.image.value })
+    dispatch({ type: "nameRules", value: state.name.value })
     dispatch({ type: "passwordRules", value: state.password.value })
     dispatch({ type: "submitRequest" })
   }
@@ -93,7 +93,7 @@ function EditProfile() {
       async function editProfile() {
         if (appState.isProfessor) {
           try {
-            const response = await Axios.put("/professor/update", { photo: state.photo.value, username: state.username.value, password: state.password.value, token: appState.user.token }, { cancelToken: ourRequest.token })
+            const response = await Axios.put("/professor/update", { image: state.image.value, name: state.name.value, password: state.password.value, token: appState.user.token }, { cancelToken: ourRequest.token })
             dispatch({ type: "saveRequestFinished" })
             appDispatch({ type: "flashMessage", value: "پروفایل ویرایش شد." })
           } catch (e) {
@@ -101,7 +101,7 @@ function EditProfile() {
           }
         } else {
           try {
-            const response = await Axios.put("/s/update", { username: state.username.value, password: state.password.value, photo: state.photo.value, token: appState.user.token })
+            const response = await Axios.put("/s/update", { name: state.name.value, password: state.password.value, studentNumber: appState.user.studentNumber, image: state.image.value, token: appState.user.token })
             dispatch({ type: "saveRequestFinished" })
             appDispatch({ type: "flashMessage", value: "پروفایل ویرایش شد." })
             alert("post updated")
@@ -123,28 +123,28 @@ function EditProfile() {
         <form onSubmit={submitHandler} className="col-lg-6 offset-lg-3 direction">
           <div className="form-row">
             <div className="form-group col-md-6">
-              <label htmlFor="email-register" className="text-muted mb-1">
+              <label htmlFor="image" className="text-muted mb-1">
                 <small>عکس پروفایل</small>
               </label>
-              <input onBlur={e => dispatch({ type: "photoRules", value: e.target.value })} onChange={e => dispatch({ type: "photoChange", value: e.target.value })} id="photo-register" name="photo" className="form-control" type="file" autoComplete="off" />
-              {state.photo.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.photo.message}</div>}
+              <input onBlur={e => dispatch({ type: "imageRules", value: e.target.value })} onChange={e => dispatch({ type: "imageChange", value: e.target.value })} id="image" name="image" className="form-control" type="file" autoComplete="off" />
+              {state.image.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.image.message}</div>}
             </div>
 
             <div className="form-group col-md-6">
-              <label htmlFor="username-register" className="text-muted mb-1">
+              <label htmlFor="name" className="text-muted mb-1">
                 <small>نام کاربری</small>
               </label>
-              <input onBlur={e => dispatch({ type: "usernameRules", value: e.target.value })} onChange={e => dispatch({ type: "usernameChange", value: e.target.value })} id="username-register" name="username" className="form-control" type="text" autoComplete="off" />
-              {state.username.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.username.message}</div>}
+              <input onBlur={e => dispatch({ type: "nameRules", value: e.target.value })} onChange={e => dispatch({ type: "nameChange", value: e.target.value })} id="name" name="name" className="form-control" type="text" autoComplete="off" />
+              {state.name.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.name.message}</div>}
             </div>
           </div>
 
           <div className="form-row">
             <div className="form-group col-md-12">
-              <label htmlFor="password-register" className="text-muted mb-1">
+              <label htmlFor="password" className="text-muted mb-1">
                 <small>رمز عبور</small>
               </label>
-              <input onBlur={e => dispatch({ type: "passwordRules", value: e.target.value })} onChange={e => dispatch({ type: "passwordChange", value: e.target.value })} id="password-register" name="password" className="form-control" type="password" />
+              <input onBlur={e => dispatch({ type: "passwordRules", value: e.target.value })} onChange={e => dispatch({ type: "passwordChange", value: e.target.value })} id="password" name="password" className="form-control" type="password" />
               {state.password.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.password.message}</div>}
             </div>
           </div>
@@ -158,4 +158,4 @@ function EditProfile() {
   )
 }
 
-export default EditProfile
+export default EditStudentProfile

@@ -27,11 +27,11 @@ function Main() {
     user: {
       token: localStorage.getItem("token"),
       id: localStorage.getItem("id"),
-      // username: localStorage.getItem("username"),
-      // studentNumber: localStorage.getItem("studentNumber"),
+      student_name: localStorage.getItem("student_name"),
+      studentNumber: localStorage.getItem("studentNumber"),
       image: localStorage.getItem("image")
     },
-    isProfessor: false
+    isProfessor: true
   }
 
   function ourReducer(draft, action) {
@@ -57,15 +57,15 @@ function Main() {
     if (state.loggedIn) {
       localStorage.setItem("token", state.user.token)
       localStorage.setItem("id", state.user.id)
-      // localStorage.setItem("username", state.user.username)
-      // localStorage.setItem("studentNumber", state.user.studentNumber)
-      // localStorage.setItem("image", state.user.image)
+      localStorage.setItem("student_name", state.user.student_name)
+      localStorage.setItem("studentNumber", state.user.studentNumber)
+      localStorage.setItem("image", state.user.image)
     } else {
       localStorage.removeItem("token")
       localStorage.removeItem("id")
-      // localStorage.removeItem("username")
-      // localStorage.removeItem("studentNumber")
-      // localStorage.removeItem("image")
+      localStorage.removeItem("student_name")
+      localStorage.removeItem("studentNumber")
+      localStorage.removeItem("image")
     }
   }, [state.loggedIn])
 

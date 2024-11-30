@@ -3,22 +3,20 @@ import { NavLink, Route, Routes, useParams } from "react-router-dom"
 import Chat from "./Chat"
 import Page from "./Page"
 import StateContext from "../StateContext"
-import EditProfile from "./EditProfile"
+import EditStudentProfile from "./EditStudentProfile"
+import EditProfessorProfile from "./EditProfessorProfile"
 import Program from "./Program"
 
 function Profile() {
   const appState = useContext(StateContext)
-  const [profileData, setProfileData] = useState({
-    profileUsername: "...",
-    profileAvatar: "../images/profile.jpg"
-  })
 
   return (
-    <Page title="پروفایل">
-      <h3>
-        <img className="avatar-small" src={profileData.profileAvatar}></img>
-        {profileData.profileUsername}
-      </h3>
+    <Page title="پروفایل" wide="true">
+      <h2>
+        <img className="avatar-small" src={appState.user.image}></img>
+        {"  "}
+        {appState.user.student_name}
+      </h2>
 
       <div className="profile-nav nav nav-tabs pt-2 mb-4">
         <NavLink to="" end className="nav-item nav-link">
@@ -33,7 +31,7 @@ function Profile() {
       </div>
 
       <Routes>
-        <Route path="" element={<EditProfile />} />
+        <Route path="" element={appState.isProfessor ? <EditProfessorProfile /> : <EditStudentProfile />} />
         <Route path="messages" element={<Chat />} />
         {/* <Route path="program" element={<Program />} /> */}
       </Routes>

@@ -23,8 +23,7 @@ function HeaderLoggedIn(props) {
       </Link>{" "}
       <ReactToolTip place="bottom" id="profile" className="custom-tooltip" />
       <Link to={`/profile/${appState.user.id}`} className="btn btn-sm btn-success mr-2" href="/create-post">
-        {/* {appState.user.username} */}
-        پروفایل
+        {appState.user.student_name}
       </Link>
       <button onClick={handleLogout} className="btn btn-sm btn-secondary signout">
         خروج

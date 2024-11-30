@@ -72,6 +72,11 @@ form input {
 }
 
 /* home page */
+
+.login-form {
+  margin-top: 50px;
+}
+
 .signout {
   margin-right: 60px;
 }

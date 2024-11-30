@@ -32,14 +32,14 @@ function HomeGuest() {
                 <label htmlFor="username-register" className="text-muted mb-1">
                   <small>نام کاربری</small>
                 </label>
-                <input onChange={e => setStudentNumber(e.target.value)} id="username-register" name="username" className="form-control" type="text" placeholder=" نام کاربری خود را وارد کنید" autoComplete="off" />
+                <input onChange={e => setName(e.target.value)} id="username-register" name="username" className="form-control" type="text" placeholder=" نام کاربری خود را وارد کنید" autoComplete="off" />
               </div>
 
               <div className="form-group">
                 <label htmlFor="student-number-register" className="text-muted mb-1">
                   <small>شماره دانشجویی</small>
                 </label>
-                <input onChange={e => setName(e.target.value)} id="student-number-register" name="username" className="form-control" type="text" placeholder="شماره دانشجویی خود را وارد کنید" autoComplete="off" />
+                <input onChange={e => setStudentNumber(e.target.value)} id="student-number-register" name="username" className="form-control" type="text" placeholder="شماره دانشجویی خود را وارد کنید" autoComplete="off" />
               </div>
 
               <div className="form-group">
