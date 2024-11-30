@@ -93,7 +93,7 @@ function EditProfile() {
       async function editProfile() {
         if (appState.isProfessor) {
           try {
-            const response = await Axios.post("/professor/update", { photo: state.photo.value, username: state.username.value, password: state.password.value, token: appState.user.token }, { cancelToken: ourRequest.token })
+            const response = await Axios.put("/professor/update", { photo: state.photo.value, username: state.username.value, password: state.password.value, token: appState.user.token }, { cancelToken: ourRequest.token })
             dispatch({ type: "saveRequestFinished" })
             appDispatch({ type: "flashMessage", value: "پروفایل ویرایش شد." })
           } catch (e) {
@@ -101,7 +101,7 @@ function EditProfile() {
           }
         } else {
           try {
-            const response = await Axios.post("/s/update", { username: state.username.value, password: state.password.value, photo: state.photo.value, token: appState.user.token })
+            const response = await Axios.put("/s/update", { username: state.username.value, password: state.password.value, photo: state.photo.value, token: appState.user.token })
             dispatch({ type: "saveRequestFinished" })
             appDispatch({ type: "flashMessage", value: "پروفایل ویرایش شد." })
             alert("post updated")

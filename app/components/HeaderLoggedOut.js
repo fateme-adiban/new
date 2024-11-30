@@ -14,6 +14,7 @@ function HeaderLoggedOut() {
       if (response.data) {
         console.log(response.data)
         appDispatch({ type: "login", data: response.data })
+        const token = getCookie("student_token")
       } else {
         console.log("Incorrect username / password.")
       }

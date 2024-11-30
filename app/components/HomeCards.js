@@ -9,7 +9,9 @@ function HomeCards(props) {
             <>
               <div key={card._id} className="col-lg-4 col-md-6">
                 <div className="professor-card">
-                  <img className="professor-img" src={"../images/profile.jpg"} />
+                  <div className="professor-img">
+                    <img src={`http://localhost:3005/${card.image_profile}`} />
+                  </div>
                   <h3>{card.name}</h3>
                   <p>{card.rank}</p>
                   <p>{card.group}</p>

@@ -42,7 +42,7 @@ function Home() {
         draft.show = "neither"
       })
     }
-  }, [state.searchTerm])
+  }, [state.searchTerm, state.groupSearch])
 
   useEffect(() => {
     if (state.requestCount) {
@@ -50,16 +50,16 @@ function Home() {
       async function fetchResults() {
         try {
           if (state.groupSearch) {
-            const response = await Axios.post(`/professor/search?query=${state.searchTerm}&group=${state.groupSearch}`, { searchTerm: state.searchTerm, group: state.groupSearch })
-            // console.log(response.data)
+            const response = await Axios.get(`/professor/search?query=${state.searchTerm}&group=${state.groupSearch}`, { searchTerm: state.searchTerm, group: state.groupSearch })
             setState(draft => {
               draft.results = response.data
+              draft.show = "results"
             })
           } else {
-            const response = await Axios.post(`/professor/search?query=${state.searchTerm}`, { searchTerm: state.searchTerm })
-            // console.log(response.data)
+            const response = await Axios.get(`/professor/search?query=${state.searchTerm}`, { searchTerm: state.searchTerm })
             setState(draft => {
               draft.results = response.data
+              draft.show = "results"
             })
           }
         } catch (e) {
@@ -75,7 +75,6 @@ function Home() {
     async function fetchCards() {
       try {
         const response = await Axios.get("/professor/all")
-        console.log(response.data)
         setCards(response.data)
         setIsLoading(false)
       } catch (e) {
@@ -88,7 +87,10 @@ function Home() {
   if (isLoading) return <LoadingDotsIcon />
 
   function handleInput(e) {
-    const value = e.target.value
+    let value = e.target.value
+    if (value.includes("ی")) {
+      value = value.replace("ی", "ي")
+    }
     setState(draft => {
       draft.searchTerm = value
     })
@@ -104,7 +106,8 @@ function Home() {
 
   const lastCardIndex = currentPage * cardsPerPage
   const firstCardIndex = lastCardIndex - cardsPerPage
-  const currentCards = cards.slice(firstCardIndex, lastCardIndex)
+  const currentCardsBeforSearch = cards.slice(firstCardIndex, lastCardIndex)
+  const currentCardsAfterSearch = state.results.slice(firstCardIndex, lastCardIndex)
 
   return (
     <Page title="اساتید" wide={true}>
@@ -132,27 +135,56 @@ function Home() {
         </div>
       </div>
       <div className={"circle-loader " + (state.show == "loading" ? "circle-loader--visible" : "")}></div>
-      {state.show != "loading" && <HomeCards cards={currentCards} />}
-      <ReactPaginate
-        containerClassName={"pagination"}
-        activeClassName={"active"}
-        pageClassName={"page-item"}
-        onPageChange={event => {
-          setCurrentPage(event.selected + 1)
-        }}
-        breakLabel="..."
-        pageCount={Math.ceil(cards.length / cardsPerPage)}
-        previousLabel={
-          <IconContext.Provider value={{ color: "#B8C1CC", size: "36px" }}>
-            <AiFillLeftCircle />
-          </IconContext.Provider>
-        }
-        nextLabel={
-          <IconContext.Provider value={{ color: "#B8C1CC", size: "36px" }}>
-            <AiFillRightCircle />
-          </IconContext.Provider>
-        }
-      />
+      {state.show == "neither" && (
+        <>
+          <HomeCards cards={currentCardsBeforSearch} />
+          <ReactPaginate
+            containerClassName={"pagination"}
+            activeClassName={"active"}
+            pageClassName={"page-item"}
+            onPageChange={event => {
+              setCurrentPage(event.selected + 1)
+            }}
+            breakLabel="..."
+            pageCount={Math.ceil(cards.length / cardsPerPage)}
+            previousLabel={
+              <IconContext.Provider value={{ color: "#B8C1CC", size: "36px" }}>
+                <AiFillLeftCircle />
+              </IconContext.Provider>
+            }
+            nextLabel={
+              <IconContext.Provider value={{ color: "#B8C1CC", size: "36px" }}>
+                <AiFillRightCircle />
+              </IconContext.Provider>
+            }
+          />
+        </>
+      )}
+      {state.show == "results" && (
+        <>
+          <HomeCards cards={currentCardsAfterSearch} />
+          <ReactPaginate
+            containerClassName={"pagination"}
+            activeClassName={"active"}
+            pageClassName={"page-item"}
+            onPageChange={event => {
+              setCurrentPage(event.selected + 1)
+            }}
+            breakLabel="..."
+            pageCount={Math.ceil(state.results.length / cardsPerPage)}
+            previousLabel={
+              <IconContext.Provider value={{ color: "#B8C1CC", size: "36px" }}>
+                <AiFillLeftCircle />
+              </IconContext.Provider>
+            }
+            nextLabel={
+              <IconContext.Provider value={{ color: "#B8C1CC", size: "36px" }}>
+                <AiFillRightCircle />
+              </IconContext.Provider>
+            }
+          />
+        </>
+      )}
     </Page>
   )
 }
