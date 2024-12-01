@@ -89,25 +89,14 @@ function EditStudentProfile() {
   useEffect(() => {
     if (state.sendCount) {
       dispatch({ type: "saveRequestStarted" })
-      const ourRequest = Axios.CancelToken.source()
       async function editProfile() {
-        if (appState.isProfessor) {
-          try {
-            const response = await Axios.put("/professor/update", { image: state.image.value, name: state.name.value, password: state.password.value, token: appState.user.token }, { cancelToken: ourRequest.token })
-            dispatch({ type: "saveRequestFinished" })
-            appDispatch({ type: "flashMessage", value: "پروفایل ویرایش شد." })
-          } catch (e) {
-            console.log("There was a problem.")
-          }
-        } else {
-          try {
-            const response = await Axios.put("/s/update", { name: state.name.value, password: state.password.value, studentNumber: appState.user.studentNumber, image: state.image.value, token: appState.user.token })
-            dispatch({ type: "saveRequestFinished" })
-            appDispatch({ type: "flashMessage", value: "پروفایل ویرایش شد." })
-            alert("post updated")
-          } catch (e) {
-            console.log("There was a problem.")
-          }
+        try {
+          const response = await Axios.put("/s/update", { name: state.name.value, password: state.password.value, studentNumber: appState.user.studentNumber, image: state.image.value, token: appState.user.token })
+          dispatch({ type: "saveRequestFinished" })
+          appDispatch({ type: "flashMessage", value: "پروفایل ویرایش شد." })
+          alert("post updated")
+        } catch (e) {
+          console.log("There was a problem.")
         }
       }
       editProfile()

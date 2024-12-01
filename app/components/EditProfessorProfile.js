@@ -22,7 +22,32 @@ function EditProfessorProfile() {
       hasErrors: false,
       message: ""
     },
+    username: {
+      value: "",
+      hasErrors: false,
+      message: ""
+    },
+    group: {
+      value: "",
+      hasErrors: false,
+      message: ""
+    },
+    rank: {
+      value: "",
+      hasErrors: false,
+      message: ""
+    },
     password: {
+      value: "",
+      hasErrors: false,
+      message: ""
+    },
+    tel: {
+      value: "",
+      hasErrors: false,
+      message: ""
+    },
+    email: {
       value: "",
       hasErrors: false,
       message: ""
@@ -42,9 +67,29 @@ function EditProfessorProfile() {
         draft.name.value = action.value
         draft.name.hasErrors = false
         return
+      case "usernameChange":
+        draft.username.value = action.value
+        draft.username.hasErrors = false
+        return
+      case "groupChange":
+        draft.group.value = action.value
+        draft.group.hasErrors = false
+        return
+      case "rankChange":
+        draft.rank.value = action.value
+        draft.rank.hasErrors = false
+        return
       case "passwordChange":
         draft.password.value = action.value
         draft.password.hasErrors = false
+        return
+      case "telChange":
+        draft.tel.value = action.value
+        draft.tel.hasErrors = false
+        return
+      case "emailChange":
+        draft.email.value = action.value
+        draft.email.hasErrors = false
         return
       case "submitRequest":
         if (!draft.image.hasErrors && !draft.name.hasErrors && !draft.password.hasErrors) {
@@ -66,13 +111,31 @@ function EditProfessorProfile() {
       case "nameRules":
         if (!action.value.trim()) {
           draft.name.hasErrors = true
-          draft.name.message = "نام کاربری را وارد کنید."
+          draft.name.message = "نام را وارد کنید."
+        }
+        return
+      case "usernameRules":
+        if (!action.value.trim()) {
+          draft.username.hasErrors = true
+          draft.username.message = "نام کاربری را وارد کنید."
         }
         return
       case "passwordRules":
         if (!action.value.trim()) {
           draft.password.hasErrors = true
           draft.password.message = "رمز عبور را وارد کنید."
+        }
+        return
+      case "telRules":
+        if (!action.value.trim()) {
+          draft.tel.hasErrors = true
+          draft.tel.message = "شماره تلفن را وارد کنید."
+        }
+        return
+      case "emailRules":
+        if (!action.value.trim()) {
+          draft.email.hasErrors = true
+          draft.email.message = "ایمیل را وارد کنید."
         }
         return
     }
@@ -91,25 +154,13 @@ function EditProfessorProfile() {
   useEffect(() => {
     if (state.sendCount) {
       dispatch({ type: "saveRequestStarted" })
-      const ourRequest = Axios.CancelToken.source()
       async function editProfile() {
-        if (appState.isProfessor) {
-          try {
-            const response = await Axios.put("/professor/update", { image: state.image.value, name: state.name.value, password: state.password.value, token: appState.user.token }, { cancelToken: ourRequest.token })
-            dispatch({ type: "saveRequestFinished" })
-            appDispatch({ type: "flashMessage", value: "پروفایل ویرایش شد." })
-          } catch (e) {
-            console.log("There was a problem.")
-          }
-        } else {
-          try {
-            const response = await Axios.put("/s/update", { name: state.name.value, password: state.password.value, studentNumber: appState.user.studentNumber, image: state.image.value, token: appState.user.token })
-            dispatch({ type: "saveRequestFinished" })
-            appDispatch({ type: "flashMessage", value: "پروفایل ویرایش شد." })
-            alert("post updated")
-          } catch (e) {
-            console.log("There was a problem.")
-          }
+        try {
+          const response = await Axios.put("/professor/update", { image: state.image.value, name: state.name.value, password: state.password.value, token: appState.user.token })
+          dispatch({ type: "saveRequestFinished" })
+          appDispatch({ type: "flashMessage", value: "پروفایل ویرایش شد." })
+        } catch (e) {
+          console.log("There was a problem.")
         }
       }
       editProfile()
@@ -122,19 +173,28 @@ function EditProfessorProfile() {
   return (
     <>
       <Page title="ویرایش پروفایل">
-        <form className="col-lg-9 offset-lg-1 direction">
+        <form className="col-lg-8 offset-lg-1 direction">
           <div className="form-row">
-            <div className="form-group col-md-6">
-              <label htmlFor="name-register" className="text-muted mb-1">
-                <small>نام و نام خانوادگی</small>
+            <div className="form-group col-md-12">
+              <label htmlFor="image" className="text-muted mb-1">
+                <small>عکس پروفایل</small>
               </label>
-              <input id="name-register" name="username" className="form-control" type="text" autoComplete="off" />
+              <input onBlur={e => dispatch({ type: "imageRules", value: e.target.value })} onChange={e => dispatch({ type: "imageChange", value: e.target.value })} id="image" name="image" className="form-control" type="file" autoComplete="off" />
+              {state.image.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.image.message}</div>}
             </div>
             <div className="form-group col-md-6">
-              <label htmlFor="username-register" className="text-muted mb-1">
+              <label htmlFor="name" className="text-muted mb-1">
+                <small>نام و نام خانوادگی</small>
+              </label>
+              <input onBlur={e => dispatch({ type: "nameRules", value: e.target.value })} onChange={e => dispatch({ type: "nameChange", value: e.target.value })} id="name" name="name" className="form-control" type="text" autoComplete="off" />
+              {state.name.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.name.message}</div>}
+            </div>
+            <div className="form-group col-md-6">
+              <label htmlFor="username" className="text-muted mb-1">
                 <small>نام کاربری</small>
               </label>
-              <input id="username-register" name="username" className="form-control" type="text" autoComplete="off" />
+              <input onBlur={e => dispatch({ type: "usernameRules", value: e.target.value })} onChange={e => dispatch({ type: "usernameChange", value: e.target.value })} id="username" name="username" className="form-control" type="text" autoComplete="off" />
+              {state.username.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.username.message}</div>}
             </div>
           </div>
 
@@ -143,7 +203,7 @@ function EditProfessorProfile() {
               <label htmlFor="group" className="text-muted mb-1">
                 <small>گروه</small>
               </label>
-              <select id="group" className="form-control">
+              <select onChange={e => dispatch({ type: "groupChange", value: e.target.value })} id="group" className="form-control">
                 {groups.map((group, index) => (
                   <option key={index} value={group}>
                     {group}
@@ -156,7 +216,7 @@ function EditProfessorProfile() {
               <label htmlFor="rank" className="text-muted mb-1">
                 <small>مرتبه علمی</small>
               </label>
-              <select id="rank" className="form-control">
+              <select onChange={e => dispatch({ type: "rankChange", value: e.target.value })} id="rank" className="form-control">
                 {ranks.map((rank, index) => (
                   <option key={index} value={rank}>
                     {rank}
@@ -167,34 +227,30 @@ function EditProfessorProfile() {
           </div>
 
           <div className="form-row">
-            <div className="form-group col-md-6">
-              <label htmlFor="password-register" className="text-muted mb-1">
+            <div className="form-group col-md-12">
+              <label htmlFor="password" className="text-muted mb-1">
                 <small>رمز عبور</small>
               </label>
-              <input id="password-register" name="password" className="form-control" type="password" />
-            </div>
-
-            <div className="form-group col-md-6">
-              <label htmlFor="password-register" className="text-muted mb-1">
-                <small>تایید رمز</small>
-              </label>
-              <input id="password-register" name="password" className="form-control" type="password" />
+              <input onBlur={e => dispatch({ type: "passwordRules", value: e.target.value })} onChange={e => dispatch({ type: "passwordChange", value: e.target.value })} id="password" name="password" className="form-control" type="password" />
+              {state.password.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.password.message}</div>}
             </div>
           </div>
 
           <div className="form-row">
             <div className="form-group col-md-6">
-              <label htmlFor="password-register" className="text-muted mb-1">
+              <label htmlFor="tel" className="text-muted mb-1">
                 <small>شماره تلفن </small>
               </label>
-              <input id="password-register" name="password" className="form-control" type="text" />
+              <input onBlur={e => dispatch({ type: "telRules", value: e.target.value })} onChange={e => dispatch({ type: "telChange", value: e.target.value })} id="tel" name="tel" className="form-control" type="text" />
+              {state.tel.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.tel.message}</div>}
             </div>
 
             <div className="form-group col-md-6">
-              <label htmlFor="password-register" className="text-muted mb-1">
+              <label htmlFor="email" className="text-muted mb-1">
                 <small>ایمیل</small>
               </label>
-              <input id="password-register" name="password" className="form-control" type="email" />
+              <input onBlur={e => dispatch({ type: "emailRules", value: e.target.value })} onChange={e => dispatch({ type: "emailChange", value: e.target.value })} id="email" name="email" className="form-control" type="email" />
+              {state.email.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.email.message}</div>}
             </div>
           </div>
 
