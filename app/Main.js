@@ -47,7 +47,7 @@ function Main() {
         draft.flashMessages.push(action.value)
         return
       case "isProfessor":
-        draft.isProfessor = true
+        draft.isProfessor = false
     }
   }
 

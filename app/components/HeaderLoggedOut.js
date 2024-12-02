@@ -14,6 +14,7 @@ function HeaderLoggedOut() {
       if (response.data) {
         console.log(response.data)
         appDispatch({ type: "login", data: response.data })
+        appDispatch({ type: "flashMessage", value: ".ورود با موفقیت انجام شد" })
         const token = getCookie("studentNumber")
       } else {
         console.log("Incorrect username / password.")

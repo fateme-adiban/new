@@ -93,7 +93,7 @@ function EditStudentProfile() {
         try {
           const response = await Axios.put("/s/update", { name: state.name.value, password: state.password.value, studentNumber: appState.user.studentNumber, image: state.image.value, token: appState.user.token })
           dispatch({ type: "saveRequestFinished" })
-          appDispatch({ type: "flashMessage", value: "پروفایل ویرایش شد." })
+          appDispatch({ type: "flashMessage", value: ".پروفایل ویرایش شد" })
           alert("post updated")
         } catch (e) {
           console.log("There was a problem.")

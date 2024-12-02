@@ -92,7 +92,7 @@ function EditProfessorProfile() {
         draft.email.hasErrors = false
         return
       case "submitRequest":
-        if (!draft.image.hasErrors && !draft.name.hasErrors && !draft.password.hasErrors) {
+        if (!draft.image.hasErrors && !draft.name.hasErrors && !draft.username.hasErrors && !draft.password.hasErrors && !draft.tel.hasErrors && !draft.email.hasErrors) {
           draft.sendCount++
         }
         return
@@ -147,7 +147,10 @@ function EditProfessorProfile() {
     e.preventDefault()
     dispatch({ type: "imageRules", value: state.image.value })
     dispatch({ type: "nameRules", value: state.name.value })
+    dispatch({ type: "usernameRules", value: state.name.value })
     dispatch({ type: "passwordRules", value: state.password.value })
+    dispatch({ type: "telRules", value: state.name.value })
+    dispatch({ type: "emailRules", value: state.name.value })
     dispatch({ type: "submitRequest" })
   }
 
@@ -156,9 +159,9 @@ function EditProfessorProfile() {
       dispatch({ type: "saveRequestStarted" })
       async function editProfile() {
         try {
-          const response = await Axios.put("/professor/update", { image: state.image.value, name: state.name.value, password: state.password.value, token: appState.user.token })
+          const response = await Axios.put("/professor/update", { newName: state.name.value, newUsername: state.username.value, newPassword: state.password.value, newEmail: state.email.value, newRank: state.rank.value, newGroup: state.group.value, newPhoneOffice: state.tel.value, newImage: state.image.value, token: appState.user.token })
           dispatch({ type: "saveRequestFinished" })
-          appDispatch({ type: "flashMessage", value: "پروفایل ویرایش شد." })
+          appDispatch({ type: "flashMessage", value: ".پروفایل ویرایش شد" })
         } catch (e) {
           console.log("There was a problem.")
         }
@@ -173,7 +176,7 @@ function EditProfessorProfile() {
   return (
     <>
       <Page title="ویرایش پروفایل">
-        <form className="col-lg-8 offset-lg-1 direction">
+        <form onSubmit={submitHandler} className="col-lg-7 offset-lg-2 direction">
           <div className="form-row">
             <div className="form-group col-md-12">
               <label htmlFor="image" className="text-muted mb-1">
@@ -254,7 +257,7 @@ function EditProfessorProfile() {
             </div>
           </div>
 
-          <button type="submit" className="py-3 mt-4 btn btn-lg btn-success btn-block">
+          <button disabled={state.isSaving} type="submit" className="py-3 mt-4 btn btn-lg btn-success btn-block">
             ثبت نام
           </button>
         </form>
